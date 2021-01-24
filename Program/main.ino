@@ -1,9 +1,9 @@
-/*
+/*=======================================================================
       By Vasily Davydov (vas-dav)
       2021      
       {Crypto Ticker}
       Program written for NodeMCU v1.0 with ESP8266
-
+=========================================================================
 */
 
 
@@ -162,9 +162,8 @@ void loop() {
       delay(2000);
     }
     
-    String ADCData, getData, Link;
-    int adcvalue=analogRead(A0);  //Read Analog value of LDR
-    ADCData = String(adcvalue);   //String to interger conversion
+    String Link;
+   
   
     //GET Data
     Link = "/v1/cryptocurrency/quotes/latest?symbol=BTC,ETH";
