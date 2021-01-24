@@ -6,7 +6,7 @@
 =========================================================================
 */
 
-
+//  Including libraries
 #include <ESP8266WiFi.h>
 #include <WiFiClientSecure.h> 
 #include <ESP8266WebServer.h>
@@ -19,18 +19,13 @@
 //test API: b54bcf4d-1bca-4e8e-9a24-22ff2c3d462c
 //main host: pro-api.coinmarketcap.com
 
+//  Declaring variables
 bool state = 1;
 const long UPD = 5 * 60 * 1000;
 const char ssid[] = "Your WiFi";  
 const char password[] = "password";
 String line = "";
-
-LiquidCrystal lcd(D6, D5, D1, D2, D3, D4); 
-
-
-//Web address to read from 
 const char host[] = "sandbox-api.coinmarketcap.com";
-//const PORT
 const int httpsPort = 443;  
 const char API [] = "b54bcf4d-1bca-4e8e-9a24-22ff2c3d462c"; // Your own API key (test key is working only with test host)
 const char trustRoot[] = R"EOF(-----BEGIN CERTIFICATE-----
@@ -56,6 +51,10 @@ R9I4LtD+gdwyah617jzV/OeBHRnDJELqYzmp
 -----END CERTIFICATE-----
 )EOF";
 X509List cert(trustRoot);
+//  Using these pins from NodeMCU for opearating the LCD (RS, E, D4, D5, D6, D7)
+LiquidCrystal lcd(D6, D5, D1, D2, D3, D4); 
+
+
 /*=======================================================================
                               Ticker ON
          - Start Screen
@@ -63,7 +62,7 @@ X509List cert(trustRoot);
   =======================================================================*/
 
 void setup() {
-  
+  //  Start Screen
   int load=0;
   lcd.begin(16,2);
   lcd.setCursor(1,0);
@@ -73,6 +72,7 @@ void setup() {
   delay(2000);
   lcd.clear();
   delay(1000);
+  //    Establishing WiFi Connection
   Serial.begin(115200);
   WiFi.mode(WIFI_OFF);        //Prevents reconnection issue (taking too long to connect)
   delay(1000);
@@ -108,7 +108,7 @@ void setup() {
         - Showing DATA on the LCD screen                 
   =======================================================================*/
 void loop() {
-  
+  //  Connection to a Crypto Server
     lcd.clear();
     configTime(3 * 3600, 0, "pool.ntp.org", "time.nist.gov");
     
@@ -165,7 +165,7 @@ void loop() {
     String Link;
    
   
-    //GET Data
+    //  Gathering DATA from it
     Link = "/v1/cryptocurrency/quotes/latest?symbol=BTC,ETH";
   
     Serial.print("requesting URL: ");
@@ -204,7 +204,7 @@ void loop() {
     Serial.println("---------");
 
 
-
+//  Forming a Json Doc and extracting DATA
 
   DynamicJsonDocument cDATA (4096);
 
@@ -228,7 +228,7 @@ void loop() {
     Serial.println(s*9000);
     if (state)
   {
-    
+    //  Showing Ethereum DATA on the LCD screen 
     lcd.setCursor(0,0);
     lcd.print("Ethereum");
     lcd.setCursor(12,0);
@@ -240,6 +240,7 @@ void loop() {
 
   } else
   {
+    // Showing Bitcoin DATA on the LCD screen 
     lcd.setCursor(0,0);
     lcd.print("Bitcoin ");
     lcd.setCursor(12,0);
