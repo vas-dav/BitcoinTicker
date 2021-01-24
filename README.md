@@ -18,6 +18,7 @@
 - [16x2 LCD screen](https://components101.com/16x2-lcd-pinout-datasheet)
 - [220Ohm Resistor](https://www.amazon.com/EDGELEC-Resistor-Tolerance-Multiple-Resistance/dp/B07QK9ZBVZ/ref=sr_1_1_sspa?dchild=1&keywords=220+ohm+resistor&qid=1611518460&sr=8-1-spons&psc=1&spLa=ZW5jcnlwdGVkUXVhbGlmaWVyPUExQVk1NlhZMzAzQURNJmVuY3J5cHRlZElkPUEwMDQyODQwTUtUR09EVzFJRzkwJmVuY3J5cHRlZEFkSWQ9QTAwMjk4MTgyWlBWU1lJVFdKUFEzJndpZGdldE5hbWU9c3BfYXRmJmFjdGlvbj1jbGlja1JlZGlyZWN0JmRvTm90TG9nQ2xpY2s9dHJ1ZQ==)
 - [Jumper Wires](https://www.amazon.com/EDGELEC-Breadboard-Optional-Assorted-Multicolored/dp/B07GD2BWPY/ref=sr_1_1_sspa?dchild=1&keywords=jumper+wires&qid=1611518487&sr=8-1-spons&psc=1&spLa=ZW5jcnlwdGVkUXVhbGlmaWVyPUEzRFZNN0RZR1VHVjE5JmVuY3J5cHRlZElkPUEwMjU0NDA2WDhOREwwV0JBMEwxJmVuY3J5cHRlZEFkSWQ9QTA5NDU0MzYxSkE3VExKQkZEQUxaJndpZGdldE5hbWU9c3BfYXRmJmFjdGlvbj1jbGlja1JlZGlyZWN0JmRvTm90TG9nQ2xpY2s9dHJ1ZQ==)
+- [10K Potentiometer](https://www.amazon.com/MCIGICM-Breadboard-Trim-Potentiometer-Arduino/dp/B07S69443J/ref=sr_1_3?dchild=1&keywords=10k+potentiometer&qid=1611521499&sr=8-3)
 
 ## Example of powering ON:
 ### Start-up screen 
