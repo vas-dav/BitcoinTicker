@@ -1,13 +1,13 @@
 # RealTime-Crypto-Ticker 
 
 ## Project by Vasily Davydov
-
+> [Mikhail Stefantsev](https://github.com/MStefan99) has contributed in WEB-part of this project
  #### INFO
 - This device is making a connection with a `pro-api.coinmarketcap.com` using own API key. 
 - Gathers the Data, converting it to the Json document
 - Prints current Bitcoin & Ethereum price with 24%h change on a physical LCD screen updating it every 5 minutes
 - Switches every 9 seconds between Bitcoin and Ethereum Data
-- [Mikhail Stefantsev](https://github.com/MStefan99) has contributed in WEB-part of this project
+- Main code in this [file](Program/main.ino)
 
 #### Some notes:
 > The main program code is in **TEST** mode using `sandbox-api.coinmarketcap.com` **host** and `b54bcf4d-1bca-4e8e-9a24-22ff2c3d462c`
