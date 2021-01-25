@@ -5,8 +5,9 @@
       Program written for NodeMCU v1.0 with ESP8266
 =========================================================================
 */
-
+//====================================
 //  Including libraries
+//====================================
 #include <ESP8266WiFi.h>
 #include <WiFiClientSecure.h> 
 #include <ESP8266WebServer.h>
@@ -19,7 +20,13 @@
 //test API: b54bcf4d-1bca-4e8e-9a24-22ff2c3d462c
 //main host: pro-api.coinmarketcap.com
 
+
+
+
+
+//====================================
 //  Declaring variables
+//====================================
 bool state = 1;
 const long UPD = 5 * 60 * 1000;
 const char ssid[] = "Your WiFi";  
@@ -61,202 +68,222 @@ LiquidCrystal lcd(D6, D5, D1, D2, D3, D4);
          - Establishing WiFi Connection                        
   =======================================================================*/
 
-void setup() {
-  //  Start Screen
-  int load=0;
-  lcd.begin(16,2);
-  lcd.setCursor(1,0);
-  lcd.print("BitCoin Ticker");
-  lcd.setCursor(3,1);
-  lcd.print("Power ON");
-  delay(2000);
-  lcd.clear();
-  delay(1000);
-  //    Establishing WiFi Connection
-  Serial.begin(115200);
-  WiFi.mode(WIFI_OFF);        //Prevents reconnection issue (taking too long to connect)
-  delay(1000);
-  WiFi.mode(WIFI_STA);        // This hides the viewing of ESP as wifi hotspot
-  
-  WiFi.begin(ssid, password);     //Connect to your WiFi router
-  
-  // Wait for connection
-  lcd.print("Connecting");
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    for (int i = 0; i < 15; i++)
-    {
-    lcd.setCursor(i,1);
-    lcd.print(".");
-    delay(500);
-    }
-  }
+void setup() 
+{
+      //====================================
+      //  Start Screen
+      //====================================
+      int load=0;
+      lcd.begin(16,2);
+      lcd.setCursor(1,0);
+      lcd.print("BitCoin Ticker");
+      lcd.setCursor(3,1);
+      lcd.print("Power ON");
+      delay(2000);
+      lcd.clear();
+      delay(1000);
+      //====================================
+      //    Establishing WiFi Connection
+      //====================================
+      Serial.begin(115200);
+      WiFi.mode(WIFI_OFF);        //Prevents reconnection issue (taking too long to connect)
+      delay(1000);
+      WiFi.mode(WIFI_STA);        // This hides the viewing of ESP as wifi hotspot
+      
+      WiFi.begin(ssid, password);     //Connect to your WiFi router
+      //====================================
+      // Wait for connection
+      //====================================
+      lcd.print("Connecting");
+      while (WiFi.status() != WL_CONNECTED) 
+      {
+        delay(500);
+        for (int i = 0; i < 15; i++)
+        {
+          lcd.setCursor(i,1);
+          lcd.print(".");
+          delay(500);
+        }
+      }
 
-  
-  Serial.println("");
-  lcd.clear();
-  lcd.print("Connected WiFi"); //If connection successful display on LCD
-  delay(1000);
-  Serial.println(ssid);
+      
+      Serial.println("");
+      lcd.clear();
+      lcd.print("Connected WiFi"); //If connection successful display on LCD
+      delay(1000);
+      Serial.println(ssid);
 }
 
-/*=======================================================================
-                          Ticker Loop 
-        - Connection to a Crypto Server
-        - Gathering DATA from it
-        - Forming a Json Doc and extracting DATA
-        - Showing DATA on the LCD screen                 
-  =======================================================================*/
-void loop() {
-  //  Connection to a Crypto Server
-    lcd.clear();
-    configTime(3 * 3600, 0, "pool.ntp.org", "time.nist.gov");
-    
-    Serial.print("Waiting for NTP time sync: ");
-    time_t now = time(nullptr);
-    while (now < 8 * 3600 * 2) {
-      delay(500);
-      lcd.setCursor(0,0);
-      lcd.print("Requesting");
-      lcd.setCursor(0,1);
-      lcd.print("DATA");
-      for (int d = 4; d < 12; d++)
-      {
-        lcd.setCursor(d,1);
-        lcd.print(".");
-        delay(500);
-        Serial.print(".");
-      }
-      now = time(nullptr);
-    }
-    Serial.println("");
-    struct tm timeinfo;
-    gmtime_r(&now, &timeinfo);
-    Serial.print("Current time: ");
-    Serial.print(asctime(&timeinfo));
-  
-    WiFiClientSecure httpsClient;    //Declare object of class WiFiClient
-  
-    Serial.println(host);
-  
-    httpsClient.setTrustAnchors(&cert);
-    httpsClient.setTimeout(5000); // 5 Seconds
-    delay(1000);
-    lcd.setCursor(0,0);
-    lcd.print("Updating Data");
-    int r=0; //retry counter
-    while((!httpsClient.connect(host, httpsPort)) && (r < 30)){
-        delay(100);
-        lcd.setCursor(0,1);
-        lcd.print(".");
-        r++;
-    }
-    if(r==30) {
-      lcd.setCursor(0,0);
-      lcd.print("Update failed");
-    }
-    else {
-      lcd.clear();
-      lcd.setCursor(0,0);
-      lcd.print("Data Updated");
-      delay(2000);
-    }
-    
-    String Link;
-   
-  
-    //  Gathering DATA from it
-    Link = "/v1/cryptocurrency/quotes/latest?symbol=BTC,ETH";
-  
-    Serial.print("requesting URL: ");
-    Serial.println(host+Link);
-  
-    httpsClient.print(String("GET ") + Link + " HTTP/1.1\r\n" +
-                 "Host: " + host + "\r\n" + 
-                 "X-CMC_PRO_API_KEY: " + API + "\r\n" +             
-                 "Connection: close\r\n\r\n");
-  
-    Serial.println("request sent");
-                    
-    while (httpsClient.connected()) {
+    /*=======================================================================
+                              Ticker Loop 
+            - Connection to a Crypto Server
+            - Gathering DATA from it
+            - Forming a Json Doc and extracting DATA
+            - Showing DATA on the LCD screen                 
+      =======================================================================*/
+    void loop() 
+  {
+      //====================================
+      //  Connection to a Crypto Server
+      //====================================
+        lcd.clear();
+        configTime(3 * 3600, 0, "pool.ntp.org", "time.nist.gov");
         
-        line = httpsClient.readStringUntil('\n');
-      if (line == "\r") {
-        Serial.println("headers received");
-        break;
+        Serial.print("Waiting for NTP time sync: ");
+        time_t now = time(nullptr);
+        while (now < 8 * 3600 * 2) 
+        {
+          delay(500);
+          lcd.setCursor(0,0);
+          lcd.print("Requesting");
+          lcd.setCursor(0,1);
+          lcd.print("DATA");
+          for (int d = 4; d < 12; d++)
+          {
+             lcd.setCursor(d,1);
+             lcd.print(".");
+             delay(500);
+             Serial.print(".");
+          }
+          now = time(nullptr);
+        }
+        Serial.println("");
+        struct tm timeinfo;
+        gmtime_r(&now, &timeinfo);
+        Serial.print("Current time: ");
+        Serial.print(asctime(&timeinfo));
+      
+        WiFiClientSecure httpsClient;    //Declare object of class WiFiClient
+      
+        Serial.println(host);
+      
+        httpsClient.setTrustAnchors(&cert);
+        httpsClient.setTimeout(5000); // 5 Seconds
+        delay(1000);
+        lcd.setCursor(0,0);
+        lcd.print("Updating Data");
+        int r=0; //retry counter
+        while((!httpsClient.connect(host, httpsPort)) && (r < 30))
+        {
+            delay(100);
+            lcd.setCursor(0,1);
+            lcd.print(".");
+            r++;
+        }
+        if(r==30) 
+        {
+          lcd.setCursor(0,0);
+          lcd.print("Update failed");
+        }
+        else 
+        {
+          lcd.clear();
+          lcd.setCursor(0,0);
+          lcd.print("Data Updated");
+          delay(2000);
+        }
+        
+        String Link;
+      
+        //====================================
+        //  Gathering DATA from Crypto srever
+        //====================================
+        Link = "/v1/cryptocurrency/quotes/latest?symbol=BTC,ETH"; //Adding more details to the API link
+      
+        Serial.print("requesting URL: ");
+        Serial.println(host+Link);
+      
+        httpsClient.print(String("GET ") + Link + " HTTP/1.1\r\n" +
+                    "Host: " + host + "\r\n" + 
+                    "X-CMC_PRO_API_KEY: " + API + "\r\n" +             
+                    "Connection: close\r\n\r\n");
+      
+        Serial.println("request sent");
+                        
+        while (httpsClient.connected()) 
+        {
+            
+            line = httpsClient.readStringUntil('\n');
+          if (line == "\r") 
+          {
+            Serial.println("headers received");
+            break;
+          }
+        }
+      
+        Serial.println("reply was:");
+        Serial.println("---------");
+        String line = "";
+        Serial.println(line);
+        bool responseReceived = false;
+        while(httpsClient.available() ){   
+        if (!responseReceived) {
+        responseReceived = true;
+        httpsClient.readStringUntil('\n');
+      } else {
+        line += httpsClient.readStringUntil('\n');
+        }
+        }
+        Serial.println(line); //Print response
+        Serial.println("---------");
+
+    //==========================================
+    //  Forming a Json Doc and extracting DATA
+    //==========================================
+      DynamicJsonDocument cDATA (4096);
+
+
+      deserializeJson(cDATA, line);
+      float BTC = cDATA["data"]["BTC"]["quote"]["USD"]["price"].as<float>();
+      float percBIT = cDATA["data"]["BTC"]["quote"]["USD"]["percent_change_24h"].as<float>();
+      float ETH = cDATA["data"]["ETH"]["quote"]["USD"]["price"].as<float>();
+      float percETH = cDATA["data"]["ETH"]["quote"]["USD"]["percent_change_24h"].as<float>();
+      lcd.clear();
+      delay(500);
+
+
+      /*=============================================================
+       Entering a loop that has a delay of 34 * 9000 ms, 
+        because the API has 333 times limit of connections per day 
+                34 * 9s = apprx. 300 s = 5 minutes   
+       =============================================================*/
+
+      for (int s  = 1; s < 34; s++)
+      {
+        delay(9000);
+        state = !state;
+        Serial.println(s*9000);
+        if (state)
+      {
+        //  Showing Ethereum DATA on the LCD screen 
+        lcd.setCursor(0,0);
+        lcd.print("Ethereum");
+        lcd.setCursor(12,0);
+        lcd.print("24h%");
+        lcd.setCursor(11,1);
+        lcd.print(percETH);
+        lcd.setCursor(0,1);
+        lcd.print(ETH);
+
+      } else
+      {
+        // Showing Bitcoin DATA on the LCD screen 
+        lcd.setCursor(0,0);
+        lcd.print("Bitcoin ");
+        lcd.setCursor(12,0);
+        lcd.print("24h%");
+        lcd.setCursor(11,1);
+        lcd.print(percBIT);
+        lcd.setCursor(0,1);
+        lcd.print(BTC);
       }
-    }
-  
-    Serial.println("reply was:");
-    Serial.println("---------");
-    String line = "";
-    Serial.println(line);
-    bool responseReceived = false;
-    while(httpsClient.available() ){   
-    if (!responseReceived) {
-    responseReceived = true;
-    httpsClient.readStringUntil('\n');
-  } else {
-    line += httpsClient.readStringUntil('\n');
-    }
-    }
-    Serial.println(line); //Print response
-    Serial.println("---------");
-
-
-//  Forming a Json Doc and extracting DATA
-
-  DynamicJsonDocument cDATA (4096);
-
-
-  deserializeJson(cDATA, line);
-  float BTC = cDATA["data"]["BTC"]["quote"]["USD"]["price"].as<float>();
-  float percBIT = cDATA["data"]["BTC"]["quote"]["USD"]["percent_change_24h"].as<float>();
-  float ETH = cDATA["data"]["ETH"]["quote"]["USD"]["price"].as<float>();
-  float percETH = cDATA["data"]["ETH"]["quote"]["USD"]["percent_change_24h"].as<float>();
-  lcd.clear();
-  delay(500);
-
-
-  /* Entering a loop that has a delay of 34 * 9000 ms, 
-     because the API has limitational connection per day */
-
-  for (int s  = 1; s < 34; s++)
-  {
-    delay(9000);
-    state = !state;
-    Serial.println(s*9000);
-    if (state)
-  {
-    //  Showing Ethereum DATA on the LCD screen 
-    lcd.setCursor(0,0);
-    lcd.print("Ethereum");
-    lcd.setCursor(12,0);
-    lcd.print("24h%");
-    lcd.setCursor(11,1);
-    lcd.print(percETH);
-    lcd.setCursor(0,1);
-    lcd.print(ETH);
-
-  } else
-  {
-    // Showing Bitcoin DATA on the LCD screen 
-    lcd.setCursor(0,0);
-    lcd.print("Bitcoin ");
-    lcd.setCursor(12,0);
-    lcd.print("24h%");
-    lcd.setCursor(11,1);
-    lcd.print(percBIT);
-    lcd.setCursor(0,1);
-    lcd.print(BTC);
-  }
-    
-  }
-  
-  
-// Loop ends and a new connection begins
-  
-  Serial.println("closing an old connection and making a new one");
+        
+      }
+      
+      
+    // Loop ends and a new connection begins
+      
+      Serial.println("closing an old connection and making a new one");
 
 }
 //=======================================================================

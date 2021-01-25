@@ -1,4 +1,6 @@
-# RealTime-Crypto-Ticker by Vasily Davydov
+# RealTime-Crypto-Ticker 
+
+## Project by Vasily Davydov
 
  #### INFO
 - This device is making a connection with a `pro-api.coinmarketcap.com` using own API key. 
