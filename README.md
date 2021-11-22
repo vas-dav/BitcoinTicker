@@ -22,6 +22,9 @@
 - [Jumper Wires](https://www.amazon.com/EDGELEC-Breadboard-Optional-Assorted-Multicolored/dp/B07GD2BWPY/ref=sr_1_1_sspa?dchild=1&keywords=jumper+wires&qid=1611518487&sr=8-1-spons&psc=1&spLa=ZW5jcnlwdGVkUXVhbGlmaWVyPUEzRFZNN0RZR1VHVjE5JmVuY3J5cHRlZElkPUEwMjU0NDA2WDhOREwwV0JBMEwxJmVuY3J5cHRlZEFkSWQ9QTA5NDU0MzYxSkE3VExKQkZEQUxaJndpZGdldE5hbWU9c3BfYXRmJmFjdGlvbj1jbGlja1JlZGlyZWN0JmRvTm90TG9nQ2xpY2s9dHJ1ZQ==)
 - [10K Potentiometer](https://www.amazon.com/MCIGICM-Breadboard-Trim-Potentiometer-Arduino/dp/B07S69443J/ref=sr_1_3?dchild=1&keywords=10k+potentiometer&qid=1611521499&sr=8-3)
 
+### Connection
+![Schematic](FilesforREADME/Schematic.png)
+
 ## Example of powering ON:
 ### Start-up screen 
 ![Power ON](FilesforREADME/pic1.png)
