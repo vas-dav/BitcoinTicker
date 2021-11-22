@@ -1,7 +1,6 @@
 # RealTime-Crypto-Ticker 
 
 ## Project by Vasily Davydov
-> [Mikhail Stefantsev](https://github.com/MStefan99) has contributed in WEB-part of this project
  #### INFO
 - This device is making a connection with a `pro-api.coinmarketcap.com` using own API key. 
 - Gathers the Data, converting it to the Json document
@@ -38,5 +37,8 @@
 ![Bitcoin](FilesforREADME/bit.png)
 ### Showing the data of Ethereum
 ![Ethereum](FilesforREADME/eth.png)
+
+> [Mikhail Stefantsev](https://github.com/MStefan99) has contributed in WEB-part of this project
+
 
 
