@@ -23,6 +23,7 @@
 
 ### Connection
 ![Schematic](FilesforREADME/Schematic.png)
+![PCB](FilesforREADME/PCB.png)
 
 ## Example of powering ON:
 ### Start-up screen 
